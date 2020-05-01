@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+        wordpressdbos:
+                image: mysql:5.7
+                volumes:
+                        - mysql_storage:/var/lib/mysql
+                restart: always
+                environment:
+                        MYSQL_ROOT_PASSWORD: tara123
+                        MYSQL_USER: tarannum
+                        MYSQL_PASSWORD: tarannum
+                        MYSQL_DATABASE: mydb
+
+
+        wordpressos:
+                image: wordpress:5.1.1-php7.3-apache
+                restart: always
+                depends_on:
+                        - wordpressdbos
+                ports:
+                    - 1234:80
+                environment:
+                        WORDPRESS_DB_HOST: wordpressdbos
+                        WORDPRESS_DB_USER: tarannum
+                        WORDPRESS_DB_PASSWORD: tarannum
+                        WORDPRESS_DB_NAME: mydb
+                volumes:
+                        - wp_storage:/var/www/html
+volumes:
+        wp_storage:
+        mysql_storage:        
+
+
+
+
+          
